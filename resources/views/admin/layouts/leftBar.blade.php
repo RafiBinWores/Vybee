@@ -82,7 +82,7 @@
                 </li>
 
                 <li>
-                    <a href="">
+                    <a href="{{ route('categories.index') }}">
                         <i class="mdi mdi-view-grid-outline"></i>
                         <span> Categories </span>
                     </a>
