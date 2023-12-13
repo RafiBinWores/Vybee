@@ -2,7 +2,7 @@
 
 {{-- page title --}}
 @section('page-title')
-    Edit Category | Online Shop - Responsive Admin Dashboard
+    Edit Category | Vybee - Admin Dashboard
 @endsection
 
 {{-- topbar page title --}}
@@ -90,7 +90,7 @@
                     @endif
                 </div>
 
-                <button class="btn btn-primary" type="submit">Update Catgeory</button>
+                <button class="btn btn-primary" type="submit">Update</button>
                 <a href="{{ route('categories.index') }}" type="reset" class="btn btn-secondary waves-effect">Cancel</a>
             </form>
 
@@ -101,43 +101,6 @@
 
 @section('customJs')
     <script>
-        // For submitting form
-        $('#categoryFrom').submit(function(event) {
-            event.preventDefault();
-
-            let formArray = $(this).serializeArray();
-            $('button[type="submit"]').prop('disable', true);
-
-            $.ajax({
-                url: "{{ route('categories.update', $category->id) }}",
-                type: 'put',
-                data: formArray,
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response['status'] == true) {
-                        window.location.href = "{{ route('categories.index') }}";
-
-                    } else {
-                        let errors = response['errors'];
-
-                        $('.error').removeClass('invalid-feedback').html('');
-                        $("input[type='text']").removeClass('is-invalid');
-
-                        $.each(errors, function(key, value) {
-                            $(`#${key}`).addClass('is-invalid').siblings('p')
-                                .addClass('invalid-feedback').html(value);
-                        })
-                    }
-                },
-                error: function() {
-                    console.log("something wrong");
-                }
-            })
-        });
-
         //For Slug 
         $('#name').change(function() {
             let element = $(this).val();
@@ -183,6 +146,43 @@
             success: function(file, response) {
                 $("#image_id").val(response.image_id);
             }
+        });
+
+        // For submitting form
+        $('#categoryFrom').submit(function(event) {
+            event.preventDefault();
+
+            let formArray = $(this).serializeArray();
+            $('button[type="submit"]').prop('disable', true);
+
+            $.ajax({
+                url: "{{ route('categories.update', $category->id) }}",
+                type: 'put',
+                data: formArray,
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response['status'] == true) {
+                        window.location.href = "{{ route('categories.index') }}";
+
+                    } else {
+                        let errors = response['errors'];
+
+                        $('.error').removeClass('invalid-feedback').html('');
+                        $("input[type='text']").removeClass('is-invalid');
+
+                        $.each(errors, function(key, value) {
+                            $(`#${key}`).addClass('is-invalid').siblings('p')
+                                .addClass('invalid-feedback').html(value);
+                        })
+                    }
+                },
+                error: function() {
+                    console.log("something wrong");
+                }
+            })
         });
     </script>
 @endsection

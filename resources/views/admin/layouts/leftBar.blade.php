@@ -88,7 +88,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('subcategories.index') }}">
                         <i class="ti-layout-list-thumb"></i>
                         <span> Sub Categories </span>
                     </a>

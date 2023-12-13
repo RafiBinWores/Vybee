@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\TempImagesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,5 +60,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::get('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        //Subcategory Routes
+        Route::get('/subcategories', [SubCategoryController::class, 'index'])->name('subcategories.index');
+        Route::get('/subcategories/create', [SubCategoryController::class, 'create'])->name('subcategories.create');
+        Route::post('/subcategories', [SubCategoryController::class, 'store'])->name('subcategories.store');
+        Route::get('/subcategories/{subcategory}/edit', [SubCategoryController::class, 'edit'])->name('subcategories.edit');
+        Route::put('/subcategories/{subcategory}', [SubCategoryController::class, 'update'])->name('subcategories.update');
+        Route::get('/subcategories/{subcategory}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
     });
 });
