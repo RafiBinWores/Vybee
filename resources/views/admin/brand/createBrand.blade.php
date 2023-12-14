@@ -2,12 +2,12 @@
 
 {{-- page title --}}
 @section('page-title')
-    Add Subcategory | Vybee - Admin Dashboard
+    Add Brand | Online Shop - Responsive Admin Dashboard
 @endsection
 
 {{-- topbar page title --}}
 @section('topbar-title')
-    Add Sub-Category
+    Add Brand
 @endsection
 
 {{-- page content --}}
@@ -18,50 +18,38 @@
 
             @include('admin.alert')
 
-            <form action="" method="POST" enctype="multipart/form-data" id="subcategoryForm" class="needs-validation"
-                novalidate>
+            <form action="" method="POST" enctype="multipart/form-data" id="brandForm" class="needs-validation" novalidate>
                 @csrf
                 @method('post')
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                required>
+                            <label for="name" class="form-label">Brand Name</label>
+                            <input type="text" class="form-control" name="name" id="name"
+                                placeholder="Brand Name" required>
                             <p class="error"></p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="slug" class="form-label">Slug</label>
-                            <input type="text" class="form-control" id="slug" placeholder="Slug" name="slug"
-                                readonly>
+                            <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug"
+                                readonly required>
                             <p class="error"></p>
                         </div>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="category" class="form-label">Category</label>
-                    <select class="form-select" name="category" id="category" required>
-                        <option selected disabled value="">Select category</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                    <p class="error"></p>
-                </div>
-                <div class="mb-3">
-                    <label for="validationCustom04" class="form-label">Status</label>
-                    <select class="form-select" name="status" id="validationCustom04" required>
-                        <option selected value="1">Active</option>
-                        <option value="2">Block</option>
+                    <label for="brandStatus" class="form-label">Status</label>
+                    <select class="form-select" name="status" id="brandStatus" required>
+                        <option value="1">Active</option>
+                        <option value="0">Block</option>
                     </select>
                     <p class="error"></p>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Add</button>
-                <a href="{{ route('subcategories.index') }}" type="reset"
-                    class="btn btn-secondary waves-effect">Cancel</a>
+                <button class="btn btn-primary" type="submit">Add Brand</button>
+                <a href="{{ route('brands.index') }}" type="reset" class="btn btn-secondary waves-effect">Cancel</a>
             </form>
 
         </div> <!-- end card-body-->
@@ -94,14 +82,14 @@
         });
 
         // For submitting form
-        $('#subcategoryForm').submit(function(event) {
+        $('#brandForm').submit(function(event) {
             event.preventDefault();
 
             let formArray = $(this).serializeArray();
             $('button[type="submit"]').prop('disable', true);
 
             $.ajax({
-                url: "{{ route('subcategories.store') }}",
+                url: "{{ route('brands.store') }}",
                 type: 'post',
                 data: formArray,
                 dataType: 'json',

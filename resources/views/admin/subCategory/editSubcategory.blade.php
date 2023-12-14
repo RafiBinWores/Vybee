@@ -72,7 +72,7 @@
 @section('customJs')
     <script>
         //For Slug 
-        $('#name').change(function() {
+        $('#name').on('input', function() {
             let element = $(this).val();
 
             $.ajax({

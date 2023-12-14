@@ -94,7 +94,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{ route('brands.index') }}">
                         <i class="fe-tag"></i>
                         <span> Brands </span>
                     </a>
