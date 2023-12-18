@@ -81,7 +81,7 @@
                         <div class="d-flex align-items-center justify-content-between rounded border p-2">
                             <div class="d-flex align-items-center">
                                 <img class="img-fluid avatar-xl rounded"
-                                    src="{{ asset('uploads/category/' . $category->image) }}" alt="{{ $category->name }}">
+                                    src="{{ asset('storage/category/' . $category->image) }}" alt="{{ $category->name }}">
                                 <div class="ms-2">
                                     <p class="text-muted fw-bold mb-0">{{ $category->image }}</p>
                                 </div>

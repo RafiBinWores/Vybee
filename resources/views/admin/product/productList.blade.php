@@ -2,12 +2,12 @@
 
 {{-- page title --}}
 @section('page-title')
-    Category List | Vybee - Admin Dashboard
+    Product List | Vybee - Admin Dashboard
 @endsection
 
 {{-- topbar page title --}}
 @section('topbar-title')
-    Categories
+    Products
 @endsection
 
 @section('content')
@@ -16,8 +16,8 @@
             <div class="row justify-content-between">
                 <div class="col-md-4">
                     <div class="mt-3 mt-md-0">
-                        <a href="{{ route('categories.create') }}" class="btn btn-primary waves-effect waves-light">
-                            <i class="mdi mdi-plus-circle me-1"></i> Add category
+                        <a href="{{ route('products.create') }}" class="btn btn-primary waves-effect waves-light">
+                            <i class="mdi mdi-plus-circle me-1"></i> Add Product
                         </a>
                     </div>
                 </div><!-- end col-->
@@ -52,14 +52,17 @@
     {{-- category table --}}
     <div class="card">
         <div class="card-body">
-            <h4 class="mt-0 header-title mb-3">All categories</h4>
+            <h4 class="mt-0 header-title mb-3">All products</h4>
             <div class="table-responsive">
                 <table class="table align-middle mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
                             <th>Image</th>
-                            <th>Category Name</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>SKU</th>
                             <th>Featured</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -67,25 +70,34 @@
                     </thead>
                     <tbody>
 
-                        @if ($categories->isNotEmpty())
-                            @foreach ($categories as $category)
+                        @if ($products->isNotEmpty())
+                            @foreach ($products as $product)
+                                @php
+                                    $productImage = $product->product_images->first();
+                                @endphp
                                 <tr>
                                     <th scope="row">
-                                        {{ $loop->iteration + $categories->perPage() * ($categories->currentPage() - 1) }}
+                                        {{ $loop->iteration + $products->perPage() * ($products->currentPage() - 1) }}
                                     </th>
                                     <td>
-                                        @if (!empty($category->image))
-                                            <img src="{{ asset('storage/category/' . $category->image) }}" alt=""
-                                                class="img-fluid avatar-md rounded">
-                                        @else
-                                            <img src="{{ asset('admin-assets/images/categories.png') }}" alt=""
-                                                class="img-fluid avatar-md rounded">
+                                        @if (!empty($productImage->image))
+                                            <img src="{{ asset('storage/product/' . $productImage->image) }}"
+                                                alt="{{ $product->name }}" class="img-fluid avatar-md rounded">
                                         @endif
                                     </td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ $category->is_featured }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->price }}</td>
                                     <td>
-                                        @if ($category->status == 1)
+                                        @if ($product->track_quantity == 'Yes')
+                                            {{ $product->quantity }} left in stock
+                                        @else
+                                            Quantity not added
+                                        @endif
+                                    </td>
+                                    <td>{{ $product->sku }}</td>
+                                    <td>{{ $product->is_featured }}</td>
+                                    <td>
+                                        @if ($product->status == 1)
                                             <i class="fe-check text-success"></i>
                                         @else
                                             <i class="fe-x text-danger"></i>
@@ -93,20 +105,19 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('categories.edit', $category->id) }}"
+                                        <a href="{{ route('products.edit', $product->id) }}"
                                             class="btn btn-success waves-effect waves-light">
                                             <i class="mdi mdi-square-edit-outline"></i>
                                         </a>
-                                        <a href="#" onclick="deleteCategory({{ $category->id }})"
-                                            class="btn
-                                            btn-danger waves-effect waves-light delete-category">
+                                        <a href="#" onclick="deleteProduct({{ $product->id }})"
+                                            class="btn btn-danger waves-effect waves-light">
                                             <i class="mdi mdi-delete"></i>
                                         </a>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
-                            <td colspan="5">No Records Found!</td>
+                            <td colspan="9">No Records Found!</td>
                         @endif
                     </tbody>
                 </table>
@@ -117,7 +128,7 @@
 
     {{-- pagination --}}
     <div class="pagination-rounded">
-        {{ $categories->links() }}
+        {{ $products->links() }}
     </div>
 
 @endsection
@@ -125,8 +136,8 @@
 
 @section('customJs')
     <script>
-        function deleteCategory(id) {
-            let url = "{{ route('categories.destroy', 'Id') }}";
+        function deleteProduct(id) {
+            let url = "{{ route('products.destroy', 'Id') }}";
             let newUrl = url.replace("Id", id);
 
             Swal.fire({
@@ -156,10 +167,10 @@
                                         'User has been deleted.',
                                         'success'
                                     ).then((result) => {
-                                        window.location.href = "{{ route('categories.index') }}";
+                                        window.location.href = "{{ route('products.index') }}";
                                     })
                                 } else {
-                                    window.location.href = "{{ route('categories.index') }}";
+                                    window.location.href = "{{ route('products.index') }}";
                                 }
                             }
                         });

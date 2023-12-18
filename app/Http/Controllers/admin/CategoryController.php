@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -56,17 +56,16 @@ class CategoryController extends Controller
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
 
-                $newImageName = $category->id . '.' . $ext;
-                $sourcePath = public_path() . '/temp/' . $tempImage->name;
-                $destPath = public_path() . '/uploads/category/' . $newImageName;
+                $newImageName = $category->id . '-' . time() . '.' . $ext;
+                $sourcePath = storage_path('app/public/temp/' . $tempImage->name);
 
-                File::copy($sourcePath, $destPath);
+                Storage::disk('category')->put($newImageName, file_get_contents($sourcePath));
 
                 $category->image = $newImageName;
                 $category->save();
             }
 
-            $request->session()->flash('success', 'Category added successfully.');
+            session()->flash('success', 'Category added successfully.');
             return response()->json([
                 'status' => true,
                 'message' => 'Category added successfully.'
@@ -121,26 +120,27 @@ class CategoryController extends Controller
 
             $oldImage = $category->image;
 
-            //Upload category image
+            // Upload category image
             if (!empty($request->image_id)) {
                 $tempImage = TempImage::find($request->image_id);
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
 
                 $newImageName = $category->id . '-' . time() . '.' . $ext;
-                $sourcePath = public_path() . '/temp/' . $tempImage->name;
-                $destPath = public_path() . '/uploads/category/' . $newImageName;
+                $sourcePath = storage_path('app/public/temp/' . $tempImage->name);
 
-                File::copy($sourcePath, $destPath);
+                Storage::disk('category')->put($newImageName, file_get_contents($sourcePath));
 
                 $category->image = $newImageName;
                 $category->save();
 
                 // Delete old image
-                File::delete(public_path() . '/uploads/category/' . $oldImage);
+                if (!empty($oldImage)) {
+                    Storage::disk('category')->delete($oldImage);
+                }
             }
 
-            $request->session()->flash('success', 'Category updated successfully.');
+            session()->flash('success', 'Category updated successfully.');
             return response()->json([
                 'status' => true,
                 'message' => 'Category updated successfully.'
@@ -154,18 +154,19 @@ class CategoryController extends Controller
     }
 
     // Delete category 
-    public function destroy($categoryId)
+    public function destroy($id)
     {
-        $category = Category::find($categoryId);
+        $category = Category::find($id);
 
-        if ($category) {
-
-            File::delete(public_path() . '/uploads/category/' . $category->image);
-            $category->delete();
-
-            return redirect()->route('categories.index');
+        if (!empty($category->image)) {
+            Storage::disk('category')->delete($category->image);
         }
 
-        return redirect()->route('categories.index');
+        $category->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Category deleted successfully.'
+        ]);
     }
 }
