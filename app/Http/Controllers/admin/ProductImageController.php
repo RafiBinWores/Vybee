@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductImageController extends Controller
 {
@@ -15,6 +17,7 @@ class ProductImageController extends Controller
     {
         $image = $request->image;
         $ext = $image->getClientOriginalExtension();
+        $sourcePath = $image->getPathName();
 
         $productImage = new ProductImage();
         $productImage->product_id = $request->product_id;
@@ -22,15 +25,25 @@ class ProductImageController extends Controller
         $productImage->save();
 
         $imageName = $request->product_id . '-' . $productImage->id . '-' . time() . '.' . $ext;
-        Storage::disk('product')->put($imageName, file_get_contents($image));
-
         $productImage->image = $imageName;
         $productImage->save();
+
+        // small image
+        $manager = new ImageManager(Driver::class);
+        $image = $manager->read($sourcePath);
+        $image->cover(250, 250);
+        $image->toJpeg()->save(storage_path("app/public/product/small/{$imageName}"));
+
+        // large image
+        $manager = new ImageManager(Driver::class);
+        $image = $manager->read($sourcePath);
+        $image->cover(570, 570);
+        $image->toJpeg()->save(storage_path("app/public/product/large/{$imageName}"));
 
         return response()->json([
             'status' => true,
             'image_id' => $productImage->id,
-            'imagePath' => asset('storage/product/' . $productImage->image),
+            'imagePath' => asset('storage/product/small/' . $productImage->image),
             'message' => 'Image Uploaded Successfully'
         ]);
     }
@@ -47,7 +60,8 @@ class ProductImageController extends Controller
             ]);
         }
 
-        Storage::disk('product')->delete($productImage->image);
+        Storage::disk('small')->delete($productImage->image);
+        Storage::disk('large')->delete($productImage->image);
         $productImage->delete();
 
         return response()->json([

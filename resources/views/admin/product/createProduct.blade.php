@@ -161,7 +161,7 @@
                                 <div class="dz-message needsclick">
                                     <i class="fe-upload-cloud fs-1"></i>
                                     <h4>Drop files here or click to upload</h4>
-                                    <p>The recommended size for product images is 200x200 pixels</p>
+                                    <p>The recommended size for product images is 570x570 pixels</p>
                                 </div>
                             </div>
                             <p class="error"></p>

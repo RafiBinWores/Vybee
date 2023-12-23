@@ -179,7 +179,7 @@
                                 <div class="dz-message needsclick">
                                     <i class="fe-upload-cloud fs-1"></i>
                                     <h4>Drop files here or click to upload</h4>
-                                    <p>The recommended size for product images is 200x200 pixels</p>
+                                    <p>The recommended size for product images is 570x570 pixels</p>
                                 </div>
                             </div>
                             <p class="error"></p>
@@ -189,7 +189,8 @@
                                         <div id="image{{ $image->id }}"
                                             class="uploaded-img d-flex align-items-center justify-content-between rounded border p-2">
                                             <input type="text" name="images[]" value="{{ $image->id }}" hidden>
-                                            <img class="rounded" src="{{ asset('storage/product/' . $image->image) }}"
+                                            <img class="rounded"
+                                                src="{{ asset('storage/product/small/' . $image->image) }}"
                                                 alt="Image Preview" style="height: 60px;">
                                             <a href="javascript:void(0);" onclick="deleteImage({{ $image->id }})">
                                                 <i class="fe-x"></i>

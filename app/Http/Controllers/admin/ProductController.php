@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductController extends Controller
 {
@@ -115,12 +117,21 @@ class ProductController extends Controller
 
                     $imageName = $product->id . '-' . $productImages->id . '-' . time() . '.' . $ext;
 
-                    // Saving image in the storage
                     $sourcePath = storage_path('app/public/temp/' . $tempImgInfo->name);
-                    Storage::disk('product')->put($imageName, file_get_contents($sourcePath));
-
                     $productImages->image = $imageName;
                     $productImages->save();
+
+                    // Small image
+                    $manager = new ImageManager(Driver::class);
+                    $image = $manager->read($sourcePath);
+                    $image->cover(250, 250);
+                    $image->toJpeg()->save(storage_path("app/public/product/small/{$imageName}"));
+
+                    // Large image
+                    $manager = new ImageManager(Driver::class);
+                    $image = $manager->read($sourcePath);
+                    $image->cover(570, 570);
+                    $image->toJpeg()->save(storage_path("app/public/product/large/{$imageName}"));
                 };
             }
 
@@ -230,7 +241,8 @@ class ProductController extends Controller
 
         if (!empty($productImages)) {
             foreach ($productImages as $productImage) {
-                Storage::disk('product')->delete($productImage->image);
+                Storage::disk('small')->delete($productImage->image);
+                Storage::disk('large')->delete($productImage->image);
             }
             ProductImage::where('product_id', $id)->delete();
         }

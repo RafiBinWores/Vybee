@@ -15,4 +15,9 @@ class Category extends Model
         'status',
         'is_featured'
     ];
+
+    public function sub_category()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 }

@@ -64,6 +64,18 @@ return [
             'url' => env('APP_URL') . '/storage/product',
             'visibility' => 'public',
         ],
+        'small' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/product/small'),
+            'url' => env('APP_URL') . '/storage/product/small',
+            'visibility' => 'public',
+        ],
+        'large' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/product/large'),
+            'url' => env('APP_URL') . '/storage/product/large',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
