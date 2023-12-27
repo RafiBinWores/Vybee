@@ -124,8 +124,14 @@ class ProductController extends Controller
                     // Small image
                     $manager = new ImageManager(Driver::class);
                     $image = $manager->read($sourcePath);
-                    $image->cover(250, 250);
+                    $image->cover(200, 200);
                     $image->toJpeg()->save(storage_path("app/public/product/small/{$imageName}"));
+
+                    // Medium image
+                    $manager = new ImageManager(Driver::class);
+                    $image = $manager->read($sourcePath);
+                    $image->cover(250, 250);
+                    $image->toJpeg()->save(storage_path("app/public/product/medium/{$imageName}"));
 
                     // Large image
                     $manager = new ImageManager(Driver::class);

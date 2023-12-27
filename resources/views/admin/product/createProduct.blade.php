@@ -244,8 +244,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response['status'] == true) {
-                        // location.reload();
-                        window.location.href = "{{ route('products.index') }}";
+                        location.reload();
                     } else {
                         let errors = response['errors'];
 

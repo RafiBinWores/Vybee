@@ -70,6 +70,12 @@ return [
             'url' => env('APP_URL') . '/storage/product/small',
             'visibility' => 'public',
         ],
+        'medium' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/product/medium'),
+            'url' => env('APP_URL') . '/storage/product/medium',
+            'visibility' => 'public',
+        ],
         'large' => [
             'driver' => 'local',
             'root' => storage_path('app/public/product/large'),

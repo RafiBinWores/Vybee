@@ -36,8 +36,8 @@
         <div class="content-margins">
             <div class="row">
                 <div class="col-xs-3 col-sm-1">
-                    <a id="logo" href="index1.html"><img src="{{ asset('front-assets/img/logo-2.png') }}"
-                            alt="" /></a>
+                    <a id="logo" href="{{ route('front.index') }}"><img
+                            src="{{ asset('front-assets/img/logo-2.png') }}" alt="logo" /></a>
                 </div>
                 <div class="col-xs-9 col-sm-11 text-right">
                     <div class="nav-wrapper">
@@ -45,7 +45,7 @@
                         <nav>
                             <ul>
                                 <li class="active">
-                                    <a href="index1.html">Home</a>
+                                    <a href="{{ route('front.index') }}">Home</a>
                                 </li>
                                 <li>
                                     <a href="">All Category</a>

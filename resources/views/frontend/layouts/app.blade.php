@@ -21,6 +21,9 @@
     <link href="{{ asset('front-assets/css/sumoselect.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('front-assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
+
     <style>
         #loader-wrapper {
             position: fixed;
@@ -92,8 +95,6 @@
     {{-- Login regiristartion popup --}}
     @include('frontend.layouts.loginRegistrationPopup')
 
-
-
     <script src="{{ asset('front-assets/js/jquery-2.2.4.min.js') }}"></script>
     <script src="{{ asset('front-assets/js/swiper.jquery.min.js') }}"></script>
     <script src="{{ asset('front-assets/js/global.js') }}"></script>
@@ -105,6 +106,13 @@
     <script src="{{ asset('front-assets/js/jquery.classycountdown.js') }}"></script>
     <script src="{{ asset('front-assets/js/jquery.knob.js') }}"></script>
     <script src="{{ asset('front-assets/js/jquery.throttle.js') }}"></script>
+
+    <!-- range slider -->
+    <script src="{{ asset('front-assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('front-assets/js/jquery.ui.touch-punch.min.js') }}"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
     {{-- custom js --}}
     @yield('customJs')

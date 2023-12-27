@@ -81,7 +81,7 @@
                                     </th>
                                     <td>
                                         @if (!empty($productImage->image))
-                                            <img src="{{ asset('storage/product/' . $productImage->image) }}"
+                                            <img src="{{ asset('storage/product/small/' . $productImage->image) }}"
                                                 alt="{{ $product->name }}" class="img-fluid avatar-md rounded">
                                         @endif
                                     </td>

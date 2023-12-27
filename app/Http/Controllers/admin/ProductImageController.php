@@ -28,17 +28,23 @@ class ProductImageController extends Controller
         $productImage->image = $imageName;
         $productImage->save();
 
-        // small image
+        // Small image
+        $manager = new ImageManager(Driver::class);
+        $image = $manager->read($sourcePath);
+        $image->cover(200, 200);
+        $image->toPng()->save(storage_path("app/public/product/small/{$imageName}"));
+
+        // Medium image
         $manager = new ImageManager(Driver::class);
         $image = $manager->read($sourcePath);
         $image->cover(250, 250);
-        $image->toJpeg()->save(storage_path("app/public/product/small/{$imageName}"));
+        $image->toPng()->save(storage_path("app/public/product/medium/{$imageName}"));
 
-        // large image
+        // Large image
         $manager = new ImageManager(Driver::class);
         $image = $manager->read($sourcePath);
         $image->cover(570, 570);
-        $image->toJpeg()->save(storage_path("app/public/product/large/{$imageName}"));
+        $image->toPng()->save(storage_path("app/public/product/large/{$imageName}"));
 
         return response()->json([
             'status' => true,
@@ -61,6 +67,7 @@ class ProductImageController extends Controller
         }
 
         Storage::disk('small')->delete($productImage->image);
+        Storage::disk('medium')->delete($productImage->image);
         Storage::disk('large')->delete($productImage->image);
         $productImage->delete();
 

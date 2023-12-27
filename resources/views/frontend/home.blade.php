@@ -195,7 +195,7 @@
                                         <div class="preview">
 
                                             @if (!empty($productImage->image))
-                                                <img src="{{ asset('storage/product/small/' . $productImage->image) }}"
+                                                <img src="{{ asset('storage/product/medium/' . $productImage->image) }}"
                                                     alt="{{ $featuredProduct->name }}">
                                             @endif
 
@@ -304,7 +304,7 @@
                                     <div class="preview">
 
                                         @if (!empty($productImage->image))
-                                            <img src="{{ asset('storage/product/small/' . $productImage->image) }}"
+                                            <img src="{{ asset('storage/product/medium/' . $productImage->image) }}"
                                                 alt="{{ $product->name }}">
                                         @endif
 
